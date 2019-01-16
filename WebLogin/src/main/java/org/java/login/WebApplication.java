@@ -14,6 +14,10 @@ public class WebApplication extends SpringBootServletInitializer {
         return application.sources(WebApplication.class);
     }
 
+    /**
+     * Autorun de Spring Boot
+     * @param args
+     */
     public static void main(String[] args){
         SpringApplication.run(WebApplication.class, args);
     }
