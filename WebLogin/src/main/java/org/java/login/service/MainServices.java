@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
 public class MainServices {
 
 	/**
-	 * Conexion jdbc al h2 - Esta utilizara la configuracion especificada en el aplication.properties
+	 * Conexion jdbc al h2 - Esta utilizara la configuracion especificada en el
+	 * aplication.properties
 	 */
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -37,14 +38,17 @@ public class MainServices {
 	 */
 	public boolean validarUser(String user, String pass) throws SQLException {
 		DataSource datasource = jdbcTemplate.getDataSource();
-		Connection con = datasource.getConnection();
-		PreparedStatement st = con.prepareStatement("Select USER,PASS FROM PUBLIC.DBUSER WHERE USER=? AND PASS=?");
-		st.setString(1, user);
-		st.setString(2, pass);
-
-		ResultSet result = st.executeQuery();
-		if (result.next()) {
-			return true;
+		try (Connection con = datasource.getConnection()) {
+			try (PreparedStatement st = con
+					.prepareStatement("Select USER,PASS FROM PUBLIC.DBUSER WHERE USER=? AND PASS=?")) {
+				st.setString(1, user);
+				st.setString(2, pass);
+				try (ResultSet result = st.executeQuery()) {
+					if (result.next()) {
+						return true;
+					}
+				}
+			}
 		}
 
 		return false;
