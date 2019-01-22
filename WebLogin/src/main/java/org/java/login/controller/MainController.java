@@ -30,6 +30,25 @@ public class MainController {
 	public String init() {
 		return INDEX;
 	}
+	
+	@RequestMapping(value = "/", method = { RequestMethod.POST })
+	public String accionV(Model model,@RequestParam Map<String, String> requestParams) throws SQLException {
+		if(requestParams.get(NAME)!=null && requestParams.get(PASS)!=null ) {
+			String user = requestParams.get(NAME);
+			String pass = requestParams.get(PASS);
+			
+			boolean result = mainService.validarUser(user, pass);
+			
+			if(result) {
+				model.addAttribute(VAROUT, "El usuario es correcto");
+				
+			}else {
+				model.addAttribute(VAROUT, "El usuario es incorrecto");
+			}
+		}
+		
+		return INDEX;
+	}
 
 	/**
 	 * valida el usuario introducido por pantalla

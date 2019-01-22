@@ -9,6 +9,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 public class WebApplication extends SpringBootServletInitializer {
+	
+	/**
+	 * Configuracion de servlet para web
+	 */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(WebApplication.class);

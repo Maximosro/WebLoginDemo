@@ -1,4 +1,4 @@
-<form action="login" method="post">
+<form action="/" method="post">
 	<div class="container">
 		<%
 			String valido = (String) request.getAttribute("valido");
@@ -14,9 +14,7 @@
 		<p>
 			<label for="psw"><b>Password</b></label> <input type="password"
 				placeholder="Enter Password" name="psw" required value=<%%>>
+		<p>
 			<button type="submit">Login</button>
-			<label> <input type="checkbox" checked="checked"
-				name="remember"> Remember me
-			</label>
 	</div>
 </form>
