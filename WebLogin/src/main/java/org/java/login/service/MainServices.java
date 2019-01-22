@@ -1,6 +1,5 @@
 package org.java.login.service;
 
-import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,7 +58,7 @@ public class MainServices {
 	}
 
 	/**
-	 * Inserta una nueva fila cada vez que realizamos un LOG
+	 * Inserta una nueva fila cada vez que realizamos un LOG para un usuario
 	 * 
 	 * @param user
 	 * @throws SQLException
@@ -85,6 +84,12 @@ public class MainServices {
 		}
 	}
 
+	/**
+	 * Metodo para consultar todos los log-in del usuario
+	 * @param usu
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<String> consultaLog(String usu) throws SQLException {
 		List<String> out = new ArrayList<>();
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.java.login.service.MainServices;
+import org.java.login.util.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 	
-	private static final String INDEX = "index";
-	private static final String VAROUT = "valido";
-	private static final String PASS = "psw";
-	private static final String NAME = "uname";
+	
+
 	
 	@Autowired
 	MainServices mainService;
@@ -31,7 +30,7 @@ public class MainController {
 	@RequestMapping("/")
 	public String init() {
 
-		return INDEX;
+		return Constantes.INDEX;
 	}
 	/**
 	 * Metodo que valida el usuario y la contraseña
@@ -44,10 +43,10 @@ public class MainController {
 	public String accionV(Model model,@RequestParam Map<String, String> requestParams) throws SQLException {
 		
 		//Login
-		if(requestParams.get(NAME)!=null && requestParams.get(PASS)!=null ) {
+		if(requestParams.get(Constantes.NAME)!=null && requestParams.get(Constantes.PASS)!=null ) {
 			
-			String user = requestParams.get(NAME);
-			String pass = requestParams.get(PASS);
+			String user = requestParams.get(Constantes.NAME);
+			String pass = requestParams.get(Constantes.PASS);
 			model=valUsu(user,pass,model);
 			
 		//Consulta log usuario	
@@ -57,7 +56,7 @@ public class MainController {
 		}
 		
 		
-		return INDEX;
+		return Constantes.INDEX;
 	}
 	
 	/**
@@ -69,10 +68,10 @@ public class MainController {
 	 */
 	private Model getLogUsu(String logUsu,Model model) throws SQLException {
 		List<String> listaLog= mainService.consultaLog(logUsu);
-		model.addAttribute("listaLog", listaLog);
-		model.addAttribute("usuarioValido", logUsu);
-		model.addAttribute("flagLog","S");
-		model.addAttribute(VAROUT, true);
+		model.addAttribute(Constantes.LISTA_LOG, listaLog);
+		model.addAttribute(Constantes.USUARIO_VALIDO, logUsu);
+		model.addAttribute(Constantes.FLAG_LOG,"S");
+		model.addAttribute(Constantes.VAROUT, true);
 		return model;
 	}
 	
@@ -89,12 +88,12 @@ public class MainController {
 		
 		if(result) {
 			mainService.insertLog(user);
-			model.addAttribute(VAROUT, true);
-			model.addAttribute("usuarioValido", user);
+			model.addAttribute(Constantes.VAROUT, true);
+			model.addAttribute(Constantes.USUARIO_VALIDO, user);
 			
 			
 		}else {
-			model.addAttribute(VAROUT, false);
+			model.addAttribute(Constantes.VAROUT, false);
 		}
 		return model;
 	}
