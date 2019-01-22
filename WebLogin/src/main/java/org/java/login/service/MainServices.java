@@ -1,9 +1,13 @@
 package org.java.login.service;
 
+import java.security.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -52,6 +56,55 @@ public class MainServices {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Inserta una nueva fila cada vez que realizamos un LOG
+	 * 
+	 * @param user
+	 * @throws SQLException
+	 */
+	public void insertLog(String user) throws SQLException {
+		Integer num = null;
+		DataSource datasource = jdbcTemplate.getDataSource();
+		try (Connection con = datasource.getConnection()) {
+			try (PreparedStatement stCon = con.prepareStatement("SELECT MAX(ID) FROM PUBLIC.DBLOGUSER")) {
+				try (ResultSet result = stCon.executeQuery()) {
+					if (!result.wasNull() && result.next()) {
+						num = result.getInt(1);
+					}
+				}
+			}
+			try (PreparedStatement st = con
+					.prepareStatement("INSERT INTO PUBLIC.DBLOGUSER (ID,NAME,FECHALOG) VALUES(?,?,?)")) {
+				st.setInt(1, num + 1);
+				st.setString(2, user);
+				st.setObject(3, LocalDateTime.now());
+				st.executeUpdate();
+			}
+		}
+	}
+
+	public List<String> consultaLog(String usu) throws SQLException {
+		List<String> out = new ArrayList<>();
+
+		DataSource datasource = jdbcTemplate.getDataSource();
+		try (Connection con = datasource.getConnection()) {
+			try (PreparedStatement stCon = con.prepareStatement("SELECT * FROM PUBLIC.DBLOGUSER WHERE NAME=?")) {
+				stCon.setString(1, usu);
+				try (ResultSet result = stCon.executeQuery()) {
+
+					while (!result.wasNull() && result.next()) {
+						String nombre = result.getString(2);
+						java.sql.Timestamp fecha = result.getTimestamp(3);
+						out.add("El usuario " + nombre + " se conecto el [" + fecha.toString() + "]");
+					}
+
+				}
+			}
+		}
+		return out;
+
 	}
 
 }
