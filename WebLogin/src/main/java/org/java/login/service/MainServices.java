@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -100,15 +102,18 @@ public class MainServices {
 				try (ResultSet result = stCon.executeQuery()) {
 
 					while (!result.wasNull() && result.next()) {
-						String nombre = result.getString(2);
-						java.sql.Timestamp fecha = result.getTimestamp(3);
-						out.add("El usuario " + nombre + " se conecto el [" + fecha.toString() + "]");
+						String nombre = result.getString(2);					
+						String rawFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(result.getTimestamp(3));
+						String[] arrFecha = rawFecha.split(" ");
+						
+						out.add("El usuario " + nombre + " se conecto el [" + arrFecha[0] + "] a las ["+arrFecha[1]+"]");
 					}
 
 				}
 			}
 		}
-		return out;
+		Collections.reverse(out);
+		return  out;
 
 	}
 
