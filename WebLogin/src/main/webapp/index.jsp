@@ -15,9 +15,6 @@
 		<p>
 			<button type="submit">Consulta LOG</button>
 	</div>
-
-
-
 	<%
 		if (request.getAttribute("flagLog") != null) {
 				List<String> listaLog = (List<String>) request.getAttribute("listaLog");

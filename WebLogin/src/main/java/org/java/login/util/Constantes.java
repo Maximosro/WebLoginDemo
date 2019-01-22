@@ -7,7 +7,7 @@ public class Constantes {
 	 */
 	private Constantes() {}
 
-	public static final String INDEX = "index";
+	public static final String INDEX = "/index.jsp";
 	public static final String VAROUT = "valido";
 	public static final String PASS = "psw";
 	public static final String NAME = "uname";

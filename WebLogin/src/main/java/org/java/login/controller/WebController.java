@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class MainController {
-	
-	
+public class WebController {
 
-	
 	@Autowired
 	MainServices mainService;
 
@@ -32,49 +29,50 @@ public class MainController {
 
 		return Constantes.INDEX;
 	}
+
 	/**
 	 * Metodo que valida el usuario y la contraseña
+	 * 
 	 * @param model
 	 * @param requestParams
 	 * @return
 	 * @throws SQLException
 	 */
 	@RequestMapping(value = "/", method = { RequestMethod.POST })
-	public String accionV(Model model,@RequestParam Map<String, String> requestParams) throws SQLException {
-		
-		//Login
-		if(requestParams.get(Constantes.NAME)!=null && requestParams.get(Constantes.PASS)!=null ) {
-			
+	public String accionV(Model model, @RequestParam Map<String, String> requestParams) throws SQLException {
+
+		// Login
+		if (requestParams.get(Constantes.NAME) != null && requestParams.get(Constantes.PASS) != null) {
+
 			String user = requestParams.get(Constantes.NAME);
 			String pass = requestParams.get(Constantes.PASS);
-			model=valUsu(user,pass,model);
-			
-		//Consulta log usuario	
-		}else if(requestParams.get("logUsu")!=null) {
-			String logUsu=requestParams.get("logUsu");
-			model = getLogUsu(logUsu,model);
+			model = valUsu(user, pass, model);
+
+			// Consulta log usuario
+		} else if (requestParams.get("logUsu") != null) {
+			String logUsu = requestParams.get("logUsu");
+			model = getLogUsu(logUsu, model);
 		}
-		
-		
+
 		return Constantes.INDEX;
 	}
-	
+
 	/**
 	 * 
 	 * @param logUsu
 	 * @param model
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
-	private Model getLogUsu(String logUsu,Model model) throws SQLException {
-		List<String> listaLog= mainService.consultaLog(logUsu);
+	private Model getLogUsu(String logUsu, Model model) throws SQLException {
+		List<String> listaLog = mainService.consultaLog(logUsu);
 		model.addAttribute(Constantes.LISTA_LOG, listaLog);
 		model.addAttribute(Constantes.USUARIO_VALIDO, logUsu);
-		model.addAttribute(Constantes.FLAG_LOG,"S");
+		model.addAttribute(Constantes.FLAG_LOG, "S");
 		model.addAttribute(Constantes.VAROUT, true);
 		return model;
 	}
-	
+
 	/**
 	 * 
 	 * @param user
@@ -85,14 +83,13 @@ public class MainController {
 	 */
 	private Model valUsu(String user, String pass, Model model) throws SQLException {
 		boolean result = mainService.validarUser(user, pass);
-		
-		if(result) {
+
+		if (result) {
 			mainService.insertLog(user);
 			model.addAttribute(Constantes.VAROUT, true);
 			model.addAttribute(Constantes.USUARIO_VALIDO, user);
-			
-			
-		}else {
+
+		} else {
 			model.addAttribute(Constantes.VAROUT, false);
 		}
 		return model;
