@@ -30,9 +30,9 @@ public class RestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", method = { RequestMethod.PUT })
-	public String newUser(Model model, @RequestParam Map<String, String> requestParams) throws Exception {
-		if (requestParams.get(Constantes.NAME) != null && requestParams.get(Constantes.PASS) != null) {
-			String user = requestParams.get(Constantes.NAME);
+	public String newUser(@RequestParam Map<String, String> requestParams) throws Exception {
+		if (requestParams.get(Constantes.USERNAME) != null && requestParams.get(Constantes.PASS) != null) {
+			String user = requestParams.get(Constantes.USERNAME);
 			String pass = requestParams.get(Constantes.PASS);
 			try {
 				mainService.insertUser(user, pass);
@@ -42,7 +42,7 @@ public class RestController {
 		} else {
 			throw new Exception("Los parametros introducidos no son los esperados");
 		}
-		return "EL usuario ['" + requestParams.get(Constantes.NAME) + "'] ha sido registrado correctamente";
+		return "EL usuario ['" + requestParams.get(Constantes.USERNAME) + "'] ha sido registrado correctamente";
 	}
 
 	/**
@@ -54,10 +54,10 @@ public class RestController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/delete", method = { RequestMethod.DELETE })
-	public String delUser(Model model, @RequestParam Map<String, String> requestParams) throws Exception {
-		if (requestParams.get(Constantes.NAME) != null) {
-			String user = requestParams.get(Constantes.NAME);
+	@RequestMapping(value = "/paco", method = { RequestMethod.DELETE })
+	public String delUser(@RequestParam Map<String, String> requestParams) throws Exception {
+		if (requestParams.get(Constantes.USERNAME) != null) {
+			String user = requestParams.get(Constantes.USERNAME);
 			try {
 				mainService.deleteUser(user);
 			} catch (SQLException e) {
@@ -66,7 +66,7 @@ public class RestController {
 		} else {
 			throw new Exception("Los parametros introducidos no son los esperados");
 		}
-		return "EL usuario ['" + requestParams.get(Constantes.NAME) + "'] ha sido eliminado correctamente";
+		return "EL usuario ['" + requestParams.get(Constantes.USERNAME) + "'] ha sido eliminado correctamente";
 	}
 
 	/**

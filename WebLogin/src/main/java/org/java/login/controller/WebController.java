@@ -42,9 +42,9 @@ public class WebController {
 	public String accionV(Model model, @RequestParam Map<String, String> requestParams) throws SQLException {
 
 		// Login
-		if (requestParams.get(Constantes.NAME) != null && requestParams.get(Constantes.PASS) != null) {
+		if (requestParams.get(Constantes.USERNAME) != null && requestParams.get(Constantes.PASS) != null) {
 
-			String user = requestParams.get(Constantes.NAME);
+			String user = requestParams.get(Constantes.USERNAME);
 			String pass = requestParams.get(Constantes.PASS);
 			model = valUsu(user, pass, model);
 
