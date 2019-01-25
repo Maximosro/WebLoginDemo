@@ -55,8 +55,5 @@ public class LogLine {
 	public String toString() {
 		return "LogLine [name=" + name + ", fechaLog=" + fechaLog + "]";
 	}
-	
-	
-    
 
 }

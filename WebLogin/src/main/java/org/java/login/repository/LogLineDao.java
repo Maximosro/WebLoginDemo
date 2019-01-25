@@ -11,5 +11,6 @@ public interface LogLineDao extends CrudRepository<LogLine, Long> {
 	
 	//Instruccion JPA
     public List<LogLine> findByNameLike(String user);
+    
    
 }

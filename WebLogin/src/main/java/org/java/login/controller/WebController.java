@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.java.login.service.MainServices;
+import org.java.login.repository.LogLineDao;
+import org.java.login.repository.UserDao;
+import org.java.login.service.Web;
 import org.java.login.util.Constantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class WebController {
 
+	public static final String LOG_USU = "logUsu";
+
 	@Autowired
-	MainServices mainService;
+	Web mainService;
+
+	@Autowired
+	LogLineDao logLineDao;
+
+	@Autowired
+	UserDao userDao;
 
 	/**
 	 * Carga la clase por defecto, el index.
@@ -48,9 +58,9 @@ public class WebController {
 			String pass = requestParams.get(Constantes.PASS);
 			model = valUsu(user, pass, model);
 
-			// Consulta log usuario
-		} else if (requestParams.get("logUsu") != null) {
-			String logUsu = requestParams.get("logUsu");
+		// Consulta log usuario
+		} else if (requestParams.get(LOG_USU) != null) {
+			String logUsu = requestParams.get(LOG_USU);
 			model = getLogUsu(logUsu, model);
 		}
 
@@ -85,7 +95,6 @@ public class WebController {
 		boolean result = mainService.validarUser(user, pass);
 
 		if (result) {
-			mainService.insertLog(user);
 			model.addAttribute(Constantes.VAROUT, true);
 			model.addAttribute(Constantes.USUARIO_VALIDO, user);
 
@@ -94,6 +103,5 @@ public class WebController {
 		}
 		return model;
 	}
-
 
 }
